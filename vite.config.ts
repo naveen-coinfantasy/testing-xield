@@ -6,7 +6,7 @@ import envCompatible from "vite-plugin-env-compatible";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    outDir: "build",
+    outDir: "dist",
   },
   server: {
     port: 3050,
