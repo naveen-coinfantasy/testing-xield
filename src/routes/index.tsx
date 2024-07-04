@@ -1,8 +1,6 @@
 import { Navigate } from "react-router";
-import { PublicRoute } from "./PublicRoute";
 import { Login } from "@/pages/login";
 import ErrorPage from "./ErrorPage";
-import { PrivateRoute } from "./PrivateRoute";
 import { useRoutes } from "react-router-dom";
 
 import { lazy } from "react";
