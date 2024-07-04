@@ -11,18 +11,11 @@ export const MainRoutes = () => {
   const routes = useRoutes([
     {
       path: "/",
-      element: <PublicRoute />,
       children: [
         {
           path: "login",
           element: <Login />,
         },
-      ],
-    },
-    {
-      path: "/",
-      element: <PrivateRoute />,
-      children: [
         {
           index: true,
           element: <Navigate to={"/home"} />,
