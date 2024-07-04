@@ -15,8 +15,8 @@ export const MainRoutes = () => {
 
       {/* PRIVATE ROUTES */}
       <Route path="/" element={<PrivateRoute />}>
-        <Route index element={<Navigate to={"/home"} />} />
         <Route path="home" element={<Home />} />
+        <Route index element={<Navigate to={"/home"} />} />
       </Route>
 
       {/* DEFAULT ROUTE */}
