@@ -1,45 +1,39 @@
-/// <reference types="vite/client" />
-
-import react from "@vitejs/plugin-react";
-import { join, resolve } from "node:path";
+import * as path from "path";
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import rollupReplace from "@rollup/plugin-replace";
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  envDir: join(__dirname),
-  envPrefix: ["VITE_"],
-  define: {
-    "import.meta.env.APP_VERSION": `"${process.env.npm_package_version}"`,
-  },
-  publicDir: resolve(__dirname, "public"),
-  root: resolve(__dirname),
-  build: {
-    emptyOutDir: true,
-    chunkSizeWarningLimit: 1024,
-    reportCompressedSize: false,
-    outDir: resolve(__dirname, "dist"),
-    rollupOptions: {
-      input: {
-        app: resolve(__dirname, "index.html"),
-      },
-    },
-  },
-  resolve: {
-    alias: [
-      { find: "@", replacement: resolve(__dirname, "src") },
-      { find: "~", replacement: resolve(__dirname, "public") },
-    ],
-  },
-  base: "/",
   server: {
     port: 3000,
-    strictPort: true,
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://127.0.0.1:3080',
-    //     changeOrigin: true,
-    //     rewrite: (path) => path.replace(/^\//, ''),
-    //   },
-    // },
   },
+  plugins: [
+    rollupReplace({
+      preventAssignment: true,
+      values: {
+        __DEV__: JSON.stringify(true),
+        "process.env.NODE_ENV": JSON.stringify("development"),
+      },
+    }),
+    react(),
+  ],
+  resolve: process.env.USE_SOURCE
+    ? {
+        alias: {
+          "@remix-run/router": path.resolve(
+            __dirname,
+            "../../packages/router/index.ts"
+          ),
+          "react-router": path.resolve(
+            __dirname,
+            "../../packages/react-router/index.ts"
+          ),
+          "react-router-dom": path.resolve(
+            __dirname,
+            "../../packages/react-router-dom/index.tsx"
+          ),
+        },
+      }
+    : {},
 });
